@@ -18,6 +18,7 @@ public class MainActivity extends Activity {
         btnStart.setOnClickListener(new View.OnClickListener(){
             public void onClick(View arg0) {
                 Intent intent = new Intent(MainActivity.this, Game.class);
+                intent.putExtra("EXTRA_ID", "SOME DATAS");
                 startActivity(intent);
             }});
     }

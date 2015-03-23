@@ -8,9 +8,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/textView"
-        android:layout_centerVertical="true"
+        android:id="@+id/beatDisplay"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="49dp"
         android:textColor="#FFFFFF"
-        android:textSize="40sp" />
+        android:gravity="center"
+        android:textSize="30dp" />
 </RelativeLayout>
