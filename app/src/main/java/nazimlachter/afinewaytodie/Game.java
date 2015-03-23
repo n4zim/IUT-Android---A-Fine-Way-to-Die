@@ -4,14 +4,18 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.media.MediaPlayer;
 import java.util.Date;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import android.os.Handler;
@@ -26,16 +30,20 @@ public class Game extends Activity {
     private MediaPlayer mPlayer;
 
     TextView beatDisplay;
+    SurfaceView swBack;
 
     Timer timer;
     TimerTask timerTask;
     final Handler handler = new Handler();
+
+    Random rand = new Random();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_game);
+        swBack = (SurfaceView)findViewById(R.id.surfaceView);
 
         mPlayer = MediaPlayer.create(this, R.raw.music);
         beatDisplay = (TextView)findViewById(R.id.beatDisplay);
@@ -77,11 +85,14 @@ public class Game extends Activity {
                 handler.post(new Runnable() {
                     public void run() {
                         currentBeat++;
-                        if(!(((currentBeat-1) % 4) == 0)) {
+                        //if(!(((currentBeat-1) % 4) == 0)) {
                             beatDisplay.setText("--- " + ((currentBeat % 4)+1) + " ---"+"\n"+currentBeat);
-                        } else {
-                            beatDisplay.setText("- - " + ((currentBeat % 4)+1) +" - -"+"\n"+currentBeat);
-                        }
+                        //} else {
+                            //beatDisplay.setText("- - " + ((currentBeat % 4)+1) +" - -"+"\n"+currentBeat);
+                        //}
+
+
+                        swBack.setBackgroundColor(Color.parseColor("#" + Integer.toHexString((rand.nextInt((16777215 - 1) + 1) + 1))));//0xFF00FF00);
                     }
                 });
             }

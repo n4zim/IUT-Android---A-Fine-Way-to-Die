@@ -15,4 +15,12 @@
         android:textColor="#FFFFFF"
         android:gravity="center"
         android:textSize="30dp" />
+
+    <SurfaceView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/surfaceView"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:background="#FFFFFF" />
 </RelativeLayout>
