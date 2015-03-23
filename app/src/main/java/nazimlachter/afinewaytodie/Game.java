@@ -1,18 +1,21 @@
 package nazimlachter.afinewaytodie;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.media.MediaPlayer;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 import android.os.Handler;
-import android.view.View;
+import android.widget.Toast;
 
 public class Game extends Activity {
 
@@ -22,7 +25,6 @@ public class Game extends Activity {
 
     private MediaPlayer mPlayer;
 
-    TextView tvTime;
     TextView beatDisplay;
 
     Timer timer;
@@ -31,6 +33,8 @@ public class Game extends Activity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_game);
 
         mPlayer = MediaPlayer.create(this, R.raw.music);
@@ -39,12 +43,21 @@ public class Game extends Activity {
 
         startTimer();
 
-        // ------------------------------------------------------------------
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            String datas = extras.getString("EXTRA_ID");
-            if (datas!= null) { Toast.makeText(getApplication(), datas, Toast.LENGTH_SHORT).show(); }
-        }
+        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            public void onCompletion(MediaPlayer arg0) {
+                if (timer != null) {
+                    timer.cancel();
+                    timer = null;
+                }
+
+                Intent intent = new Intent(Game.this, Result.class);
+                intent.putExtra("TIME", ""+currentBeat);
+                intent.putExtra("SCORE", "100");
+
+                startActivity(intent);
+                finish();
+            }
+        });
 
     }
 
@@ -54,7 +67,7 @@ public class Game extends Activity {
         try {
             timer.schedule(timerTask, new Date(), beat);
         } catch (IllegalArgumentException e) {
-            Log.e("TAGLIFE", "Illegal argument : " + beat);
+            Log.e("ERROR", "Illegal argument : " + beat);
         }
     }
 
@@ -78,10 +91,38 @@ public class Game extends Activity {
     public void onDestroy() {
         mPlayer.stop();
         super.onDestroy();
+    }
 
-        if (timer != null) {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK) {
+
+            mPlayer.pause();
             timer.cancel();
-            timer = null;
+            final int pausedBeat = currentBeat;
+            Toast.makeText(getApplicationContext(), "PAUSED : "+pausedBeat, Toast.LENGTH_SHORT).show();
+
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Quitter le jeu en cours ?")
+                    .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(Game.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("Non", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            mPlayer.start();
+                            currentBeat = pausedBeat;
+                            startTimer();
+                        }
+                    })
+                    .show();
+
+            return true;
+        } else {
+            return super.onKeyDown(keyCode, event);
         }
     }
 

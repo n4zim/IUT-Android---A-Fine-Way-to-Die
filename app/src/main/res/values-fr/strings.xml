@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">A Fine Way to Die</string>
+    <string name="test">Test de fonctionnalité !</string>
+
+    <string name="action_settings">Paramètres</string>
+    <string name="start">Démarrer</string>
+    <string name="title">A Fine Way to Die</string>
+    <string name="credits">Application crée par Nazim Lachter\nMusique originale par GRiZ</string>
+</resources>
