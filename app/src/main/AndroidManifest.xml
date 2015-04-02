@@ -18,7 +18,8 @@
         </activity>
         <activity
             android:name=".Game"
-            android:label="@string/title_activity_game">
+            android:label="@string/title_activity_game"
+            android:screenOrientation="landscape">
         </activity>
         <activity
             android:name=".Result"

@@ -6,7 +6,7 @@
     <string name="action_settings">Paramètres</string>
     <string name="start">Démarrer</string>
     <string name="title">A Fine Way to Die</string>
-    <string name="credits">Application crée par Nazim Lachter\nMusique originale par GRiZ</string>
+    <string name="credits">Application crée par Nazim Lachter\nMusique originale par GRiZ\n\nJeu développé dans le cadre\nd\'un projet de DUT Informatique</string>
     <string name="title_activity_game">Result</string>
     <string name="title_activity_result">Result</string>
     <string name="hello_world">Hello world!</string>
