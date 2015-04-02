@@ -15,13 +15,4 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Temps"
-        android:id="@+id/time"
-        android:layout_below="@+id/score"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="53dp" />
 </RelativeLayout>
