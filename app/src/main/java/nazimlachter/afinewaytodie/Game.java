@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.media.MediaPlayer;
@@ -27,11 +28,13 @@ public class Game extends Activity {
     long beat = (long) ((float) (60/bpm) * 1000);
     int currentBeat, bigBeat, score, diviseWtf = 0;
     Boolean wtfMode = false;
+    Boolean[] buttonStates = { false, false, false };
 
     private MediaPlayer mPlayer;
 
     TextView beatDisplay, scoreDisplay, levelDisplay;
     RelativeLayout gameLayout;
+    Button b1, b2, b3;
 
     Timer timer;
     TimerTask timerTask;
@@ -61,6 +64,22 @@ public class Game extends Activity {
         beatDisplay = (TextView)findViewById(R.id.beatDisplay);
         scoreDisplay = (TextView)findViewById(R.id.score);
         levelDisplay = (TextView)findViewById(R.id.level);
+
+        b1 = (Button)findViewById(R.id.b1);
+        b1.setVisibility(View.GONE);
+        b1.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View arg0) { buttonState(1); }});
+
+        b2 = (Button)findViewById(R.id.b2);
+        b2.setVisibility(View.GONE);
+        b2.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View arg0) { buttonState(2); }});
+
+        b3 = (Button)findViewById(R.id.b3);
+        b3.setVisibility(View.GONE);
+        b3.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View arg0) { buttonState(3); }});
+
         mPlayer.start();
 
         startTimer();
@@ -110,14 +129,33 @@ public class Game extends Activity {
                         if((((currentBeat-1) % diviseWtf) == 0))
                             gameLayout.setBackgroundColor(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)));
 
-                        if((((currentBeat-1) % 4) == 0)) bigBeat++;
+                        if((((currentBeat-1) % 4) == 0)) {
+
+                            if(b1.getVisibility() == View.VISIBLE) {
+                                b1.setX(rnd.nextInt((int) (gameLayout.getWidth() - b1.getX())));
+                                b1.setY(rnd.nextInt((int) (gameLayout.getHeight() - b1.getY())));
+                                b1.setBackgroundColor(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)));
+                            } else if(buttonStates[0]) { b1.setVisibility(View.VISIBLE); buttonStates[0] = false; }
+
+                            if(b2.getVisibility() == View.VISIBLE) {
+                                b2.setX(rnd.nextInt((int) (gameLayout.getWidth() - b2.getX())));
+                                b2.setY(rnd.nextInt((int) (gameLayout.getHeight() - b2.getY())));
+                                b2.setBackgroundColor(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)));
+                            } else if(buttonStates[1]) { b2.setVisibility(View.VISIBLE); buttonStates[1] = false; }
+
+                            if(b3.getVisibility() == View.VISIBLE) {
+                                b3.setX(rnd.nextInt((int) (gameLayout.getWidth() - b3.getX())));
+                                b3.setY(rnd.nextInt((int) (gameLayout.getHeight() - b3.getY())));
+                                b3.setBackgroundColor(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)));
+                            } else if(buttonStates[2]) { b3.setVisibility(View.VISIBLE); buttonStates[2] = false; }
+
+                            bigBeat++;
+                        }
 
                         beatDisplay.setText(
                                 "Progression : " + bigBeat+"/363 (" + ((currentBeat % 4)+1) + "/4)\n"
                                 +"Longueur : " + currentBeat + "/1457"
                         );
-
-                        scoreDisplay.setText("" + ++score);
 
                         switch (bigBeat) {
                             case 8: // Whaooo
@@ -127,11 +165,13 @@ public class Game extends Activity {
 
                             case 12: // DROP #1
                                 levelDisplay.setText("Niveau 1");
+                                b1.setVisibility(View.VISIBLE);
                                 wtfMode = false;
                                 break;
 
                             case 28:
                                 levelDisplay.setText("Niveau 2");
+                                b2.setVisibility(View.VISIBLE);
                                 break;
 
                             case 44:
@@ -145,10 +185,15 @@ public class Game extends Activity {
                             case 80:
                                 levelDisplay.setText("GET READY");
                                 wtfMode = true;
+                                b1.setVisibility(View.GONE);
+                                b2.setVisibility(View.GONE);
                                 break;
 
                             case 84: // DROP #2
                                 levelDisplay.setText("Niveau 5");
+                                b1.setVisibility(View.VISIBLE);
+                                b2.setVisibility(View.VISIBLE);
+                                b3.setVisibility(View.VISIBLE);
                                 wtfMode = false;
                                 break;
 
@@ -158,6 +203,9 @@ public class Game extends Activity {
 
                             case 148: // Chant
                                 levelDisplay.setText("COOL MODE");
+                                b1.setVisibility(View.GONE);
+                                b2.setVisibility(View.GONE);
+                                b3.setVisibility(View.GONE);
                                 break;
 
                             case 180:
@@ -174,16 +222,26 @@ public class Game extends Activity {
 
                             case 260:
                                 levelDisplay.setText("...YES !");
+                                wtfMode = true;
+                                b1.setVisibility(View.VISIBLE);
+                                b2.setVisibility(View.VISIBLE);
+                                b3.setVisibility(View.VISIBLE);
                                 break;
 
                             case 273: // Whaooo
                                 levelDisplay.setText("WHAOW");
                                 wtfMode = true;
+                                b1.setVisibility(View.GONE);
+                                b2.setVisibility(View.GONE);
+                                b3.setVisibility(View.GONE);
                                 break;
 
                             case 277: // DROP #3
                                 levelDisplay.setText("Niveau 7");
                                 wtfMode = false;
+                                b1.setVisibility(View.VISIBLE);
+                                b2.setVisibility(View.VISIBLE);
+                                b3.setVisibility(View.VISIBLE);
                                 break;
                         }
 
@@ -196,6 +254,24 @@ public class Game extends Activity {
     public void onDestroy() {
         mPlayer.stop();
         super.onDestroy();
+    }
+
+    private void buttonState(int button) {
+        switch(button) {
+            case 1:
+                buttonStates[0] = true;
+                b1.setVisibility(View.GONE);
+                break;
+            case 2:
+                buttonStates[1] = true;
+                b2.setVisibility(View.GONE);
+                break;
+            case 3:
+                buttonStates[2] = true;
+                b3.setVisibility(View.GONE);
+                break;
+        }
+        scoreDisplay.setText("" + ++score);
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
