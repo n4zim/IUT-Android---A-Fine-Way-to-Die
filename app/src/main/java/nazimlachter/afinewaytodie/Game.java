@@ -126,7 +126,7 @@ public class Game extends Activity implements AccelerometerListener {
     // ---------------------------------------------------------------------------------------------
 
     public void onShake(float force) {
-        Toast.makeText(getBaseContext(), "Motion detected", Toast.LENGTH_SHORT).show();
+        if(beatTimeCoolMode > 0) scoreDisplay.setText("" + ++score);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -153,11 +153,11 @@ public class Game extends Activity implements AccelerometerListener {
                         // -------------------------------------------------------------------------
 
                         if(shake.getVisibility() == View.GONE)
-                            if(coolMode && (rnd.nextInt(20)) == 1) {
+                            if(coolMode && (rnd.nextInt(25)) == 1) {
                                     beatTimeCoolMode = 6;
                                     shake.setVisibility(View.VISIBLE);
 
-                            } else if((rnd.nextInt(50)) == 1) {
+                            } else if((rnd.nextInt(35)) == 1) {
                                     beatTimeCoolMode = 4;
                                     shake.setVisibility(View.VISIBLE);
                             }
@@ -207,12 +207,6 @@ public class Game extends Activity implements AccelerometerListener {
                             // ---------------------------------------------------------------------
 
                             bigBeat++;
-                        }
-
-                        // -------------------------------------------------------------------------
-
-                        if(beatTimeCoolMode > 0) {
-                            scoreDisplay.setText("" + ++score);
                         }
 
                         // -------------------------------------------------------------------------
@@ -304,7 +298,7 @@ public class Game extends Activity implements AccelerometerListener {
                                 b3.setVisibility(View.VISIBLE);
                                 break;
 
-                            case 273: // Whaooo
+                            case 272: // Whaooo
                                 levelDisplay.setText("WHAOW");
                                 wtfMode = true;
                                 beatTimeCoolMode = 4;
@@ -313,7 +307,7 @@ public class Game extends Activity implements AccelerometerListener {
                                 b3.setVisibility(View.GONE);
                                 break;
 
-                            case 277: // DROP #3
+                            case 276: // DROP #3
                                 levelDisplay.setText("Niveau 7");
                                 wtfMode = false;
                                 beatTimeCoolMode = 2;
