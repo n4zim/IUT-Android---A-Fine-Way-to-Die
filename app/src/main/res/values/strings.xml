@@ -14,5 +14,7 @@
     <string name="thanks">Merci d\'avoir joué :D</string>
     <string name="progression">Progression\nLongeur</string>
     <string name="getready">GET READY</string>
+    <string name="zero">0</string>
+    <string name="shake">SHAKE !</string>
 
 </resources>
