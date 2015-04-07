@@ -11,7 +11,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/beatDisplay"
         android:textColor="#FFFFFF"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:text="@string/progression"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
@@ -24,8 +24,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/score"
         android:textColor="#FFFFFF"
-        android:textSize="50dp"
-        android:text="0"
+        android:textSize="50sp"
+        android:text="@string/zero"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="20dp"
@@ -38,7 +38,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/level"
         android:textColor="#FFFFFF"
-        android:textSize="40dp"
+        android:textSize="40sp"
         android:text="@string/getready"
         android:textIsSelectable="false"
         android:layout_alignBottom="@+id/beatDisplay"
@@ -49,8 +49,7 @@
         android:layout_height="180dp"
         android:id="@+id/b1"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/beatDisplay"
-        android:layout_weight="1" />
+        android:layout_alignStart="@+id/beatDisplay" />
 
     <Button
         android:layout_width="180dp"
@@ -65,5 +64,17 @@
         android:id="@+id/b3"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/b1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/shake"
+        android:textColor="#FFFFFF"
+        android:textSize="40sp"
+        android:text="@string/shake"
+        android:textIsSelectable="false"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
