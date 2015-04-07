@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.hardware.SensorEventListener;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -23,7 +22,7 @@ import java.util.TimerTask;
 import android.os.Handler;
 import android.widget.Toast;
 
-public class Game extends Activity {
+public class Game extends Activity implements AccelerometerListener {
 
     float bpm = 103;
     long beat = (long) ((float) (60/bpm) * 1000);
@@ -45,7 +44,11 @@ public class Game extends Activity {
     TimerTask timerTask;
     final Handler handler = new Handler();
 
-    Random rand = new Random();
+    // ---------------------------------------------------------------------------------------------
+
+    public void onAccelerationChanged(float x, float y, float z) { }
+
+    // ---------------------------------------------------------------------------------------------
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +111,8 @@ public class Game extends Activity {
 
     }
 
+    // ---------------------------------------------------------------------------------------------
+
     public void startTimer() {
         timer = new Timer();
         initTimer();
@@ -117,6 +122,14 @@ public class Game extends Activity {
             Log.e("ERROR", "Illegal argument : " + (beat/4));
         }
     }
+
+    // ---------------------------------------------------------------------------------------------
+
+    public void onShake(float force) {
+        Toast.makeText(getBaseContext(), "Motion detected", Toast.LENGTH_SHORT).show();
+    }
+
+    // ---------------------------------------------------------------------------------------------
 
     public void initTimer() {
         timerTask = new TimerTask() {
@@ -316,15 +329,37 @@ public class Game extends Activity {
         };
     }
 
+    // ---------------------------------------------------------------------------------------------
+
     public void onDestroy() {
         super.onDestroy();
         mPlayer.stop();
+
+        if(AccelerometerManager.isListening()) AccelerometerManager.stopListening();
     }
+
+    // ---------------------------------------------------------------------------------------------
 
     protected void onPause() {
         super.onPause();
         mPlayer.stop();
     }
+
+    // ---------------------------------------------------------------------------------------------
+
+    protected void onResume() {
+        super.onResume();
+        if(AccelerometerManager.isSupported(this)) AccelerometerManager.startListening(this);
+    }
+
+    // ---------------------------------------------------------------------------------------------
+
+    public void onStop() {
+        super.onStop();
+        if(AccelerometerManager.isListening()) AccelerometerManager.stopListening();
+    }
+
+    // ---------------------------------------------------------------------------------------------
 
     private void buttonState(int button) {
         switch(button) {
@@ -344,13 +379,15 @@ public class Game extends Activity {
         scoreDisplay.setText("" + ++score);
     }
 
+    // ---------------------------------------------------------------------------------------------
+
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK) {
 
             mPlayer.pause();
             timer.cancel();
             final int pausedBeat = currentBeat;
-            Toast.makeText(getApplicationContext(), "PAUSED : "+pausedBeat, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "PAUSED : "+pausedBeat, Toast.LENGTH_SHORT).show();
 
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
