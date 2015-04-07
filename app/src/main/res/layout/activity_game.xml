@@ -12,7 +12,7 @@
         android:id="@+id/beatDisplay"
         android:textColor="#FFFFFF"
         android:textSize="30dp"
-        android:text="Progression\nLongeur"
+        android:text="@string/progression"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_marginStart="20dp"
@@ -39,7 +39,7 @@
         android:id="@+id/level"
         android:textColor="#FFFFFF"
         android:textSize="40dp"
-        android:text="GET READY"
+        android:text="@string/getready"
         android:textIsSelectable="false"
         android:layout_alignBottom="@+id/beatDisplay"
         android:layout_alignEnd="@+id/score" />

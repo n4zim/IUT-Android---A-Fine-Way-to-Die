@@ -10,9 +10,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Score"
+        android:text="@string/score_display"
         android:id="@+id/score"
-        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textSize="50sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/thanks"
+        android:id="@+id/textView"
+        android:layout_marginTop="97dp"
+        android:layout_below="@+id/score"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

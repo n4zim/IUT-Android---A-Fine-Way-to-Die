@@ -31,9 +31,9 @@
         android:text="@string/credits"
         android:gravity="center"
         android:id="@+id/textView2"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="110dp"
         android:textSize="15sp"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        android:layout_marginTop="45dp"
+        android:layout_below="@+id/start"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
