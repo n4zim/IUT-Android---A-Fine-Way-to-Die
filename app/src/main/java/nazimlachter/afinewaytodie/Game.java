@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.hardware.SensorEventListener;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -28,13 +29,15 @@ public class Game extends Activity {
     long beat = (long) ((float) (60/bpm) * 1000);
     int currentBeat, bigBeat, score, diviseWtf = 0;
     Boolean wtfMode = false;
+    Boolean coolMode = false;
+    int beatTimeCoolMode = 0;
     Boolean[] buttonStates = { false, false, false };
     int[] backgrounds = { R.drawable.banana, R.drawable.quiche, R.drawable.violon,
             R.drawable.paperplane, R.drawable.screen, R.drawable.rocket, R.drawable.koala, R.drawable.cow };
 
     private MediaPlayer mPlayer;
 
-    TextView beatDisplay, scoreDisplay, levelDisplay;
+    TextView beatDisplay, scoreDisplay, levelDisplay, shake;
     RelativeLayout gameLayout;
     Button b1, b2, b3;
 
@@ -67,6 +70,9 @@ public class Game extends Activity {
         scoreDisplay = (TextView)findViewById(R.id.score);
         levelDisplay = (TextView)findViewById(R.id.level);
 
+        shake = (TextView)findViewById(R.id.shake);
+        shake.setVisibility(View.GONE);
+
         b1 = (Button)findViewById(R.id.b1);
         b1.setVisibility(View.GONE);
         b1.setOnClickListener(new View.OnClickListener(){
@@ -83,12 +89,11 @@ public class Game extends Activity {
             public void onClick(View arg0) { buttonState(3); }});
 
         mPlayer.start();
-
         startTimer();
 
         mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer arg0) {
-                if (timer != null) {
+                if(timer != null) {
                     timer.cancel();
                     timer = null;
                 }
@@ -122,16 +127,35 @@ public class Game extends Activity {
 
                         Random rnd = new Random();
 
-                        if(!wtfMode) {
-                            diviseWtf = 4;
-                        } else {
-                            diviseWtf = 1;
-                        }
+                        // -------------------------------------------------------------------------
+
+                        if(!wtfMode) diviseWtf = 4;
+                            else diviseWtf = 1;
+
+                        // -------------------------------------------------------------------------
 
                         if((((currentBeat-1) % diviseWtf) == 0))
                             gameLayout.setBackgroundColor(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)));
 
+                        // -------------------------------------------------------------------------
+
+                        if(coolMode && (rnd.nextInt(20)) == 1) {
+                                beatTimeCoolMode = 6;
+                                shake.setVisibility(View.VISIBLE);
+
+                        } else if((rnd.nextInt(50)) == 1) {
+                                beatTimeCoolMode = 2;
+                                shake.setVisibility(View.VISIBLE);
+                        }
+
+                        // -------------------------------------------------------------------------
+
                         if((((currentBeat-1) % 4) == 0)) {
+
+                            if(beatTimeCoolMode > 0)
+                                if(--beatTimeCoolMode == 0) shake.setVisibility(View.GONE);
+
+                            // ---------------------------------------------------------------------
 
                             //if(b1.getVisibility() == View.VISIBLE) {
                             int b1X = (int) ((gameLayout.getWidth() - b1.getX()) - 1)+2;
@@ -166,13 +190,25 @@ public class Game extends Activity {
                             //} else if(buttonStates[2]) { b3.setVisibility(View.VISIBLE); buttonStates[2] = false; }
                             if(buttonStates[2]) { b3.setVisibility(View.VISIBLE); buttonStates[2] = false; }
 
+                            // ---------------------------------------------------------------------
+
                             bigBeat++;
                         }
 
+                        // -------------------------------------------------------------------------
+
+                        if(beatTimeCoolMode > 0) {
+                            scoreDisplay.setText("" + ++score);
+                        }
+
+                        // -------------------------------------------------------------------------
+
                         beatDisplay.setText(
                                 "Progression : " + bigBeat+"/363 (" + ((currentBeat % 4)+1) + "/4)\n"
-                                +"Longueur : " + currentBeat + "/1457"
+                                        +"Longueur : " + currentBeat + "/1457"
                         );
+
+                        // -------------------------------------------------------------------------
 
                         switch (bigBeat) {
                             case 8: // Whaooo
@@ -223,6 +259,7 @@ public class Game extends Activity {
                                 b1.setVisibility(View.GONE);
                                 b2.setVisibility(View.GONE);
                                 b3.setVisibility(View.GONE);
+                                coolMode = true;
                                 break;
 
                             case 180:
@@ -239,6 +276,7 @@ public class Game extends Activity {
 
                             case 260:
                                 levelDisplay.setText("...YES !");
+                                coolMode = false;
                                 wtfMode = true;
                                 b1.setVisibility(View.VISIBLE);
                                 b2.setVisibility(View.VISIBLE);
@@ -269,8 +307,16 @@ public class Game extends Activity {
     }
 
     public void onDestroy() {
-        mPlayer.stop();
         super.onDestroy();
+        mPlayer.stop();
+    }
+
+    protected void onPause() {
+        super.onPause();
+        mPlayer.stop();
+        Intent intent = new Intent(Game.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void buttonState(int button) {
