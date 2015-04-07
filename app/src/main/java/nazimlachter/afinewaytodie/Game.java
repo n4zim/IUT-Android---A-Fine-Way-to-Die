@@ -29,6 +29,8 @@ public class Game extends Activity {
     int currentBeat, bigBeat, score, diviseWtf = 0;
     Boolean wtfMode = false;
     Boolean[] buttonStates = { false, false, false };
+    int[] backgrounds = { R.drawable.banana, R.drawable.quiche, R.drawable.violon,
+            R.drawable.paperplane, R.drawable.screen, R.drawable.rocket, R.drawable.koala, R.drawable.cow };
 
     private MediaPlayer mPlayer;
 
@@ -131,23 +133,38 @@ public class Game extends Activity {
 
                         if((((currentBeat-1) % 4) == 0)) {
 
-                            if(b1.getVisibility() == View.VISIBLE) {
-                                b1.setX(rnd.nextInt((int) (gameLayout.getWidth() - b1.getX())));
-                                b1.setY(rnd.nextInt((int) (gameLayout.getHeight() - b1.getY())));
-                                b1.setBackgroundColor(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)));
-                            } else if(buttonStates[0]) { b1.setVisibility(View.VISIBLE); buttonStates[0] = false; }
+                            //if(b1.getVisibility() == View.VISIBLE) {
+                            int b1X = (int) ((gameLayout.getWidth() - b1.getX()) - 1)+2;
+                            int b1Y = (int) ((gameLayout.getHeight() - b1.getY()) - 1)+2;
+                            b1.setX(rnd.nextInt(b1X <= 0 ? -b1X : b1X));
+                            b1.setY(rnd.nextInt(b1Y <= 0 ? -b1Y : b1Y));
 
-                            if(b2.getVisibility() == View.VISIBLE) {
-                                b2.setX(rnd.nextInt((int) (gameLayout.getWidth() - b2.getX())));
-                                b2.setY(rnd.nextInt((int) (gameLayout.getHeight() - b2.getY())));
-                                b2.setBackgroundColor(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)));
-                            } else if(buttonStates[1]) { b2.setVisibility(View.VISIBLE); buttonStates[1] = false; }
+                            b1.setBackgroundColor(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)));
+                            b1.setCompoundDrawablesWithIntrinsicBounds(backgrounds[rnd.nextInt(backgrounds.length)], 0, 0, 0);
+                            //} else if(buttonStates[0]) { b1.setVisibility(View.VISIBLE); buttonStates[0] = false; }
+                            if(buttonStates[0]) { b1.setVisibility(View.VISIBLE); buttonStates[0] = false; }
 
-                            if(b3.getVisibility() == View.VISIBLE) {
-                                b3.setX(rnd.nextInt((int) (gameLayout.getWidth() - b3.getX())));
-                                b3.setY(rnd.nextInt((int) (gameLayout.getHeight() - b3.getY())));
-                                b3.setBackgroundColor(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)));
-                            } else if(buttonStates[2]) { b3.setVisibility(View.VISIBLE); buttonStates[2] = false; }
+                            //if(b2.getVisibility() == View.VISIBLE) {
+                            int b2X = (int) ((gameLayout.getWidth() - b2.getX()) - 1)+2;
+                            int b2Y = (int) ((gameLayout.getHeight() - b2.getY()) - 1)+2;
+                            b2.setX(rnd.nextInt(b2X <= 0 ? -b2X : b2X));
+                            b2.setY(rnd.nextInt(b2Y <= 0 ? -b2Y : b2Y));
+
+                            b2.setBackgroundColor(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)));
+                            b2.setCompoundDrawablesWithIntrinsicBounds(backgrounds[rnd.nextInt(backgrounds.length)], 0, 0, 0);
+                            //} else if(buttonStates[1]) { b2.setVisibility(View.VISIBLE); buttonStates[1] = false; }
+                            if(buttonStates[1]) { b2.setVisibility(View.VISIBLE); buttonStates[1] = false; }
+
+                            //if(b3.getVisibility() == View.VISIBLE) {
+                            int b3X = (int) ((gameLayout.getWidth() - b3.getX()) - 1)+2;
+                            int b3Y = (int) ((gameLayout.getHeight() - b3.getY()) - 1)+2;
+                            b3.setX(rnd.nextInt(b3X < 0 ? -b3X : b3X));
+                            b3.setY(rnd.nextInt(b3Y < 0 ? -b3Y : b3Y));
+
+                            b3.setBackgroundColor(Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256)));
+                            b3.setCompoundDrawablesWithIntrinsicBounds(backgrounds[rnd.nextInt(backgrounds.length)], 0, 0, 0);
+                            //} else if(buttonStates[2]) { b3.setVisibility(View.VISIBLE); buttonStates[2] = false; }
+                            if(buttonStates[2]) { b3.setVisibility(View.VISIBLE); buttonStates[2] = false; }
 
                             bigBeat++;
                         }
