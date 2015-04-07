@@ -342,6 +342,7 @@ public class Game extends Activity implements AccelerometerListener {
     // ---------------------------------------------------------------------------------------------
 
     protected void onResume() {
+        mPlayer.start();
         super.onResume();
         if(AccelerometerManager.isSupported(this)) AccelerometerManager.startListening(this);
     }
