@@ -139,14 +139,15 @@ public class Game extends Activity {
 
                         // -------------------------------------------------------------------------
 
-                        if(coolMode && (rnd.nextInt(20)) == 1) {
-                                beatTimeCoolMode = 6;
-                                shake.setVisibility(View.VISIBLE);
+                        if(shake.getVisibility() == View.GONE)
+                            if(coolMode && (rnd.nextInt(20)) == 1) {
+                                    beatTimeCoolMode = 6;
+                                    shake.setVisibility(View.VISIBLE);
 
-                        } else if((rnd.nextInt(50)) == 1) {
-                                beatTimeCoolMode = 2;
-                                shake.setVisibility(View.VISIBLE);
-                        }
+                            } else if((rnd.nextInt(50)) == 1) {
+                                    beatTimeCoolMode = 4;
+                                    shake.setVisibility(View.VISIBLE);
+                            }
 
                         // -------------------------------------------------------------------------
 
@@ -214,30 +215,36 @@ public class Game extends Activity {
                             case 8: // Whaooo
                                 levelDisplay.setText("WHAOW");
                                 wtfMode = true;
+                                beatTimeCoolMode = 4;
                                 break;
 
                             case 12: // DROP #1
                                 levelDisplay.setText("Niveau 1");
                                 b1.setVisibility(View.VISIBLE);
+                                beatTimeCoolMode = 2;
                                 wtfMode = false;
                                 break;
 
                             case 28:
                                 levelDisplay.setText("Niveau 2");
                                 b2.setVisibility(View.VISIBLE);
+                                beatTimeCoolMode = 2;
                                 break;
 
                             case 44:
                                 levelDisplay.setText("Niveau 3");
+                                beatTimeCoolMode = 2;
                                 break;
 
                             case 60:
                                 levelDisplay.setText("Niveau 4");
+                                beatTimeCoolMode = 2;
                                 break;
 
                             case 80:
                                 levelDisplay.setText("GET READY");
                                 wtfMode = true;
+                                beatTimeCoolMode = 4;
                                 b1.setVisibility(View.GONE);
                                 b2.setVisibility(View.GONE);
                                 break;
@@ -247,11 +254,13 @@ public class Game extends Activity {
                                 b1.setVisibility(View.VISIBLE);
                                 b2.setVisibility(View.VISIBLE);
                                 b3.setVisibility(View.VISIBLE);
+                                beatTimeCoolMode = 2;
                                 wtfMode = false;
                                 break;
 
                             case 116:
                                 levelDisplay.setText("Niveau 6");
+                                beatTimeCoolMode = 2;
                                 break;
 
                             case 148: // Chant
@@ -277,7 +286,6 @@ public class Game extends Activity {
                             case 260:
                                 levelDisplay.setText("...YES !");
                                 coolMode = false;
-                                wtfMode = true;
                                 b1.setVisibility(View.VISIBLE);
                                 b2.setVisibility(View.VISIBLE);
                                 b3.setVisibility(View.VISIBLE);
@@ -286,6 +294,7 @@ public class Game extends Activity {
                             case 273: // Whaooo
                                 levelDisplay.setText("WHAOW");
                                 wtfMode = true;
+                                beatTimeCoolMode = 4;
                                 b1.setVisibility(View.GONE);
                                 b2.setVisibility(View.GONE);
                                 b3.setVisibility(View.GONE);
@@ -294,6 +303,7 @@ public class Game extends Activity {
                             case 277: // DROP #3
                                 levelDisplay.setText("Niveau 7");
                                 wtfMode = false;
+                                beatTimeCoolMode = 2;
                                 b1.setVisibility(View.VISIBLE);
                                 b2.setVisibility(View.VISIBLE);
                                 b3.setVisibility(View.VISIBLE);
@@ -314,9 +324,6 @@ public class Game extends Activity {
     protected void onPause() {
         super.onPause();
         mPlayer.stop();
-        Intent intent = new Intent(Game.this, MainActivity.class);
-        startActivity(intent);
-        finish();
     }
 
     private void buttonState(int button) {
