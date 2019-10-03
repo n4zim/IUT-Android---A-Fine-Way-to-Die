@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/a-fine-way-to-die.iml" filepath="$PROJECT_DIR$/a-fine-way-to-die.iml" />
+      <module fileurl="file://$PROJECT_DIR$/IUT_Android_AFineWaytoDie.iml" filepath="$PROJECT_DIR$/IUT_Android_AFineWaytoDie.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
 </project>
-
